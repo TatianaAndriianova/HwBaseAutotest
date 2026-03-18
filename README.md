@@ -35,7 +35,7 @@
    ```bash
    ./gradlew test
    ```
-4. Наблюдать падение теста `shouldReturnZeroWhenAmountIsExactlyBoundary`
+4. Наблюдать падение теста `    shouldReturnZeroWhenAmountIsMultipleOfBoundary и shouldReturnZeroWhenAmountIsExactlyBoundary`
 
 ---
 
@@ -61,9 +61,6 @@ Expected [0] but found [1000]
   at ru.netology.service.CashbackHackServiceTest
       .shouldReturnZeroWhenAmountIsExactlyBoundary(CashbackHackServiceTest.java:34)
 ```
-
-> Скриншот окна с ошибкой прикладывается к issue (строка `Expected [0] but found [1000]` выделена красным).
-
 ---
 
 **Причина:**
@@ -71,22 +68,4 @@ Expected [0] but found [1000]
 В методе `remain()` используется выражение `boundary - amount % boundary`.  
 При `amount = 1000`: `1000 % 1000 = 0`, затем `1000 - 0 = 1000` — результат некорректен.
 
-**Предлагаемое исправление:**
-
-```java
-public int remain(int amount) {
-    int mod = amount % boundary;
-    return mod == 0 ? 0 : boundary - mod;
-}
-```
-
 ---
-
-## Особенности TestNG vs JUnit4
-
-| Параметр              | TestNG                          | JUnit4                     |
-|-----------------------|---------------------------------|----------------------------|
-| Аннотация `@Test`     | `org.testng.annotations.Test`   | `org.junit.Test`           |
-| Класс Assert          | `org.testng.Assert`             | `org.junit.Assert`         |
-| Порядок в assertEquals | `(actual, expected)`           | `(expected, actual)`       |
-| Модификатор класса    | `public`                        | `public`                   |
